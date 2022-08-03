@@ -9,18 +9,42 @@ body {
     height: 600px;
     width: 400px;
 
-    border: 1px solid red;
+    background-color: darkgray;
+
+    /* border: 1px solid red; */
     padding: 20px;
+    border: 2px solid black;
+    border-radius: 10px;
+
+    font-weight: bold;
     
 }
 
 .display {
-    background-color: lightgray;
+    background-color: ghostwhite;
 
-    height: 150px;
-    width: 400px;
+    flex: 1;
 
-    border: 1px solid red;
+
+    position: relative;
+
+    border-radius: 5px;
+    overflow: hidden;
+    border: 2px solid dimgray;
+
+    /* border: 1px solid red; */
+}
+
+.displayText {
+
+    text-align: right;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    /* border: 1px solid red; */
+    /* font-family: ; */
+    font-size: 3rem;
+    font-weight: 400;
 }
 
 .buttons {
@@ -29,7 +53,10 @@ body {
     justify-content: space-between;
     gap: 20px;
 
-    border: 3px solid purple;
+    font-weight: bold;
+
+
+    /* border: 3px solid purple; */
     margin: 20px 0px 0px 0px;
 }
 
@@ -40,7 +67,7 @@ body {
     flex-direction: column;
     justify-content: space-evenly;
 
-    border: 2px solid blue;
+    /* border: 2px solid blue; */
 }
 
 .numberRow {
@@ -52,7 +79,7 @@ body {
     
     /* height: 100%; */
 
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 
 .miscRow {
@@ -64,7 +91,7 @@ body {
     
     /* height: 100%; */
 
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 
 .number {
@@ -73,25 +100,36 @@ body {
     justify-content: center;
     
     height: 100%;
+    border-radius: 100%;
+
     /* width: 20%; */
     /* padding: 0px; */
     /* padding-bottom: 20%; */
     aspect-ratio: 1/1;
 
 
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 
-.misc {
+.misc, .red {
     flex: 1;
     
     height: 100%;
     aspect-ratio: 1/1;
     border-radius: 20%;
-    background-color: darkgrey;
+    background-color: lightgray;
 
 
-    border: 1px solid red;
+    /* border: 1px solid red; */
+}
+
+.red {
+    /* flex: 1; */
+    background-color: salmon;
+}
+
+.plusMinus {
+    background-color: lightgray;
 }
 
 .functionButtons {
@@ -99,18 +137,39 @@ body {
     flex: 1;
     flex-direction: column;
     gap: 20px;
-
-    border: 2px solid green;
+    /* border: 2px solid green; */
 }
 
 .function {
     flex: 1;
     /* gap: 20px; */
     border-radius: 10%;
+    background-color: lightcyan;
 
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 
-button.number {
-    border-radius: 100%;
+button {
+    font-weight: bold;
+    font-size: 24px;
+}
+
+button:hover {
+    filter: brightness(90%);
+}
+
+button:active {
+    filter: brightness(75%);
+    border-width: 3px;
+}
+
+button.red {
+    color: ghostwhite;
+    /* -webkit-text-stroke: 0.5px lightgrey; */
+}
+
+button.function {
+    font-size: 48px;
+    font-weight: 400;
+    color: 	#484848;
 }
