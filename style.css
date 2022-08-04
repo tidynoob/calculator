@@ -15,7 +15,7 @@ body {
     flex-direction: column;
     justify-content: space-between;
 
-    height: 650px;
+    height: 700px;
     width: 400px;
     /* width: auto; */
 
@@ -37,7 +37,7 @@ body {
     flex: 1 1 auto;
     
 
-    min-height: 125px;
+    min-height: 150px;
 
     position: relative;
 
@@ -96,7 +96,7 @@ body {
     
     /* height: 100%; */
 
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 
 .miscRow {
@@ -188,7 +188,7 @@ button:hover {
 
 button:active {
     filter: brightness(75%);
-    border-width: 3px;
+    border-width: 2px;
 }
 
 button.red {
