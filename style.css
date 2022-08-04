@@ -13,7 +13,7 @@ body {
 
     /* border: 1px solid red; */
     padding: 20px;
-    border: 2px solid black;
+    border: 4px outset #36454F;
     border-radius: 10px;
 
     font-weight: bold;
@@ -25,12 +25,12 @@ body {
 
     flex: 1;
 
-
     position: relative;
 
     border-radius: 5px;
-    overflow: hidden;
-    border: 2px solid dimgray;
+    /* border-style: inset; */
+    /* overflow: hidden; */
+    border: 3px inset dimgray;
 
     /* border: 1px solid red; */
 }
@@ -45,6 +45,7 @@ body {
     /* font-family: ; */
     font-size: 3rem;
     font-weight: 400;
+    color: #484848;
 }
 
 .buttons {
@@ -136,7 +137,7 @@ body {
     display: flex;
     flex: 1;
     flex-direction: column;
-    gap: 20px;
+    gap: 30px;
     /* border: 2px solid green; */
 }
 
@@ -152,6 +153,7 @@ body {
 button {
     font-weight: bold;
     font-size: 24px;
+    color: #484848;
 }
 
 button:hover {
