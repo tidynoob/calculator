@@ -5,7 +5,7 @@ body {
 .wrapper {
     display: flex;
     justify-content: center;
-    align-items: center;
+    /* align-items: center; */
     /* border: 1px solid red; */
     height: 80vh;
 }
@@ -13,8 +13,9 @@ body {
 .calculator {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 
-    height: 600px;
+    height: 650px;
     width: 400px;
     /* width: auto; */
 
@@ -33,7 +34,10 @@ body {
 .display {
     background-color: ghostwhite;
 
-    flex: 1;
+    flex: 1 1 auto;
+    
+
+    min-height: 125px;
 
     position: relative;
 
@@ -60,7 +64,7 @@ body {
 
 .buttons {
     display: flex;
-    flex: 1;
+    flex: 1 1 0;
     justify-content: space-between;
     gap: 20px;
 
@@ -73,10 +77,11 @@ body {
 
 .numberButtons {
     display: flex;
-    flex: 3;
+    flex: 1 1 75%;
     gap: 20px;
     flex-direction: column;
     justify-content: space-evenly;
+    min-width: none;
 
     /* border: 2px solid blue; */
 }
@@ -87,10 +92,11 @@ body {
     align-items: center;
     flex: 1;
     gap: 20px;
+    min-width: none;
     
     /* height: 100%; */
 
-    /* border: 1px solid red; */
+    border: 1px solid red;
 }
 
 .miscRow {
@@ -110,13 +116,15 @@ body {
     text-align: center;
     justify-content: center;
     
-    height: 100%;
+    /* height: 100%; */
+    /* height: 0px; */
+    min-width: none;
     border-radius: 100%;
 
     /* width: 20%; */
     /* padding: 0px; */
     /* padding-bottom: 20%; */
-    aspect-ratio: 1/1;
+    /* aspect-ratio: 1/1; */
 
 
     /* border: 1px solid red; */
@@ -125,8 +133,8 @@ body {
 .misc, .red {
     flex: 1;
     
-    height: 100%;
-    aspect-ratio: 1/1;
+    /* height: 100%; */
+    /* aspect-ratio: 1/1; */
     border-radius: 20%;
     background-color: lightgray;
 
@@ -145,9 +153,10 @@ body {
 
 .functionButtons {
     display: flex;
-    flex: 1;
+    flex: 1 1 25%;
     flex-direction: column;
     gap: 30px;
+    min-width: none;
     /* border: 2px solid green; */
 }
 
@@ -156,6 +165,8 @@ body {
     /* gap: 20px; */
     border-radius: 10%;
     background-color: lightcyan;
+    min-width: none;
+    height: 0px;
 
     /* border: 1px solid red; */
 }
@@ -164,6 +175,11 @@ button {
     font-weight: bold;
     font-size: 24px;
     color: #484848;
+    min-width: 0px;
+    min-height: 0px;
+    /* height: 0px; */
+    aspect-ratio: 1/1;
+
 }
 
 button:hover {
