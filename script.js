@@ -62,6 +62,7 @@ let adjustText = (text, buttonText, displayText) => {
                 break;
 
             case '=':
+
                 break;
 
             case 'AC':
@@ -121,9 +122,11 @@ let storeValue = (text, buttonText) => {
     };
     console.table(values);
 
+    // set an operator if we don't have one already
     if (operators.includes(buttonText)) {
         if (!values.operator) values.operator = buttonText;
 
+    // clear everything with AC
     } else if (buttonText == 'AC') {
         values = {
             x: null,
@@ -131,8 +134,10 @@ let storeValue = (text, buttonText) => {
             operator: null,
         };
         tempValue = false;
-        // tempValue = false;
+    
+    // with CE, clear the most recent inputs
     } else if (buttonText == 'CE') {
+        if (values.y) values.y = null;
         values.operator = null;
     }
 }
