@@ -83,6 +83,8 @@ let adjustText = (text, buttonText, displayText) => {
                 if (operators.includes(text.slice(-1))) {
                     text = displayText.textContent.slice(0, -1) + buttonText;
                     displayText.textContent = text;
+
+                    values.operator = buttonText;
                     return;
                 }
 
