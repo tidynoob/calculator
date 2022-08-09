@@ -25,16 +25,22 @@ let adjustText = (text, buttonText, displayText) => {
 
     if (tempValue) {
         text = '';
-        displayText.textContent = '';
+        // displayText.textContent = '';
         tempValue = false;
-    }
+    };
 
 
-    // reset text if last part of text was an operator
+    // if last part of text was an operator, reset text
+    // but if you pressed a new operator, replace the operator and don't reset
     if (operators.includes(text.slice(-1))) {
-        text = '';
-        displayText.textContent = '';
-    }
+        if (operators.includes(buttonText)) {
+            text = displayText.textContent.slice(0, -1) + buttonText;
+            displayText.textContent = text;
+        } else {
+            text = '';
+            displayText.textContent = '';
+        };
+    };
 
     // adjust the text depending on the button pressed
     // for integer, simply add the integer to the end of the text
@@ -67,30 +73,27 @@ let adjustText = (text, buttonText, displayText) => {
 
             case 'AC':
                 displayText.textContent = '';
+                return;
                 break;
 
             case 'CE':
                 displayText.textContent = '';
+                return;
                 break;
 
             // Use the default for the operators plus period
             default:
 
                 // do nothing if last part of character is equivalent to the button pressed
-                if (text.slice(-1) == String(buttonText) || !text.slice(-1)) return;
+                if (text.slice(-1) == String(buttonText) || (!text.slice(-1) && !displayText.textContent)) return;
+                
+                // text = displayText.textContent + String(buttonText);
+                // displayText.textContent = text;
 
-                // if the last character is an operator, replace the operator with the new button pressed
-                if (operators.includes(text.slice(-1))) {
-                    text = displayText.textContent.slice(0, -1) + buttonText;
-                    displayText.textContent = text;
+        }
 
-                    values.operator = buttonText;
-                    return;
-                }
-
-                text = displayText.textContent + String(buttonText);
-                displayText.textContent = text;
-        };
+        text = displayText.textContent + String(buttonText);
+        displayText.textContent = text;
     };
 
     // replace any part of the text that isn't a number and return it for the next functions
@@ -99,7 +102,7 @@ let adjustText = (text, buttonText, displayText) => {
 
     return text
 
-}
+};
 
 // When pressing any of the operator buttons, it should store the number
 // Pressing operator button additionally while one number is stored should act
@@ -110,6 +113,13 @@ let storeValue = (text, buttonText) => {
     // or clearing the value
     if ((![...operators, '=', 'AC', 'CE'].includes(buttonText)) &&
         (buttonText == '.' || typeof (parseInt(buttonText)) == 'number')) return;
+
+    // if the button pressed is an operator, and we have an x value but no y value
+    // don't try to calculate - just change operator
+    if (values.x && !values.y && operators.includes(buttonText)) {
+        values.operator = buttonText;
+        return;
+    }
 
     // console.log('thru');
 
@@ -128,7 +138,7 @@ let storeValue = (text, buttonText) => {
     if (operators.includes(buttonText)) {
         if (!values.operator) values.operator = buttonText;
 
-    // clear everything with AC
+        // clear everything with AC
     } else if (buttonText == 'AC') {
         values = {
             x: null,
@@ -136,8 +146,8 @@ let storeValue = (text, buttonText) => {
             operator: null,
         };
         tempValue = false;
-    
-    // with CE, clear the most recent inputs
+
+        // with CE, clear the most recent inputs
     } else if (buttonText == 'CE') {
         if (values.y) values.y = null;
         values.operator = null;
