@@ -24,6 +24,7 @@ let divide = (x, y) => { return Math.round(((x / y) + Number.EPSILON) * 10000000
 let adjustText = (text, buttonText, displayText) => {
 
     if (tempValue) {
+        if (!values.operator && !operators.includes(buttonText)) values.x = null;
         text = '';
         // displayText.textContent = '';
         tempValue = false;
@@ -57,7 +58,7 @@ let adjustText = (text, buttonText, displayText) => {
 
             case '+/-':
                 if (operators.includes(text.slice(-1))) return;
-                if (text == '') return;
+                if (displayText.textContent == '') return;
                 if (text.charAt(0) == '-') {
                     text = text.substring(1);
                     displayText.textContent = Number(text).toLocaleString('en-US');
@@ -65,30 +66,28 @@ let adjustText = (text, buttonText, displayText) => {
                     text = '-' + text;
                     displayText.textContent = Number(text).toLocaleString('en-US');
                 }
-                break;
+                return text;
 
             case '=':
-
-                break;
+                text = displayText.textContent;
+                return text;
 
             case 'AC':
                 displayText.textContent = '';
                 return;
-                break;
 
             case 'CE':
                 displayText.textContent = '';
                 return;
-                break;
 
             // Use the default for the operators plus period
             default:
 
                 // do nothing if last part of character is equivalent to the button pressed
                 if (text.slice(-1) == String(buttonText) || (!text.slice(-1) && !displayText.textContent)) return;
-                
-                // text = displayText.textContent + String(buttonText);
-                // displayText.textContent = text;
+
+            // text = displayText.textContent + String(buttonText);
+            // displayText.textContent = text;
 
         }
 
@@ -123,6 +122,7 @@ let storeValue = (text, buttonText) => {
 
     // console.log('thru');
 
+
     // first store the x value (first value)
     // if the x is already stored, we can store y assuming an operator
     // is alrady stored. If an operator is not stored, we don't store y yet
@@ -133,6 +133,10 @@ let storeValue = (text, buttonText) => {
         if (values.operator) values.y = Number(text)
     };
     console.table(values);
+
+    // check that random '=' presses don't do anything when there's no available operations
+    if (buttonText == '=' & !values.y) return;
+
 
     // set an operator if we don't have one already
     if (operators.includes(buttonText)) {
