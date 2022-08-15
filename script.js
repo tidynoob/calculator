@@ -61,8 +61,7 @@ let adjustText = (text, buttonText, displayText) => {
 
     // adjust the text depending on the button pressed
     // for integer, simply add the integer to the end of the text
-
-    if (parseInt(buttonText)) {
+    if (parseInt(buttonText) || buttonText == '0') {
 
         text += String(buttonText);
 
