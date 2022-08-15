@@ -1,12 +1,37 @@
 // CALCULATOR FUNCTIONS
 
-let add = (x, y) => { return Math.round(((x + y) + Number.EPSILON) * 100000000) / 100000000 };
+let fixDigits = (x) => {
+    let digits = x.length;
+    let digitDiff = digits - 10;
 
-let subtract = (x, y) => { return Math.round(((x - y) + Number.EPSILON) * 100000000) / 100000000 };
+    if (digitDiff > 0) x = x.toFixed(digitDiff);
 
-let multiply = (x, y) => { return Math.round(((x * y) + Number.EPSILON) * 100000000) / 100000000 };
+    return x
+};
 
-let divide = (x, y) => { return Math.round(((x / y) + Number.EPSILON) * 100000000) / 100000000 };
+let add = (x, y) => {
+    let num = Math.round(((x + y) + Number.EPSILON) * 100000000) / 100000000 ;
+    num = fixDigits(num);
+    return num;
+};
+
+let subtract = (x, y) => {
+    let num = Math.round(((x - y) + Number.EPSILON) * 100000000) / 100000000 ;
+    num = fixDigits(num);
+    return num;
+};
+
+let multiply = (x, y) => {
+    let num = Math.round(((x * y) + Number.EPSILON) * 100000000) / 100000000 ;
+    num = fixDigits(num);
+    return num;
+};
+
+let divide = (x, y) => {
+    let num = Math.round(((x / y) + Number.EPSILON) * 100000000) / 100000000 ;
+    num = fixDigits(num);
+    return num;
+};
 
 // let operate = (x, y, foo) => {
 //     return foo(x, y)
@@ -45,55 +70,60 @@ let adjustText = (text, buttonText, displayText) => {
 
     // adjust the text depending on the button pressed
     // for integer, simply add the integer to the end of the text
-    if (parseInt(buttonText)) {
-        text += String(buttonText);
 
-        // toLocaleString will add commas to the number string when necessary, e.g. thousands
-        displayText.textContent = Number(text)
+    // Wrap in an if statement to make sure text length does not excede 10
+        if (parseInt(buttonText)) {
 
-    } else {
+            if (text.length < 10) {
+            text += String(buttonText);
 
-        // when not pressing an integer, adjust the display depending on the specific button
-        switch (buttonText) {
+            // toLocaleString will add commas to the number string when necessary, e.g. thousands
+            displayText.textContent = Number(text)
+            }
 
-            case '+/-':
-                if (operators.includes(text.slice(-1))) return;
-                if (displayText.textContent == '') return;
-                if (text.charAt(0) == '-') {
-                    text = text.substring(1);
-                    displayText.textContent = Number(text);
-                } else {
-                    text = '-' + text;
-                    displayText.textContent = Number(text);
-                }
-                return text;
+        } else {
 
-            case '=':
-                text = displayText.textContent;
-                return text;
+            // when not pressing an integer, adjust the display depending on the specific button
+            switch (buttonText) {
 
-            case 'AC':
-                displayText.textContent = '';
-                return;
+                case '+/-':
+                    if (operators.includes(text.slice(-1))) return;
+                    if (displayText.textContent == '') return;
+                    if (text.charAt(0) == '-') {
+                        text = text.substring(1);
+                        displayText.textContent = Number(text);
+                    } else {
+                        text = '-' + text;
+                        displayText.textContent = Number(text);
+                    }
+                    return text;
 
-            case 'CE':
-                displayText.textContent = '';
-                return;
+                case '=':
+                    text = displayText.textContent;
+                    return text;
 
-            // Use the default for the operators plus period
-            default:
+                case 'AC':
+                    displayText.textContent = '';
+                    return;
 
-                // do nothing if last part of character is equivalent to the button pressed
-                if (text.slice(-1) == String(buttonText) || (!text.slice(-1) && !displayText.textContent)) return;
+                case 'CE':
+                    displayText.textContent = '';
+                    return;
 
-            // text = displayText.textContent + String(buttonText);
-            // displayText.textContent = text;
+                // Use the default for the operators plus period
+                default:
 
-        }
+                    // do nothing if last part of character is equivalent to the button pressed
+                    if (text.slice(-1) == String(buttonText) || (!text.slice(-1) && !displayText.textContent)) return;
 
-        text = displayText.textContent + String(buttonText);
-        displayText.textContent = text;
-    };
+                // text = displayText.textContent + String(buttonText);
+                // displayText.textContent = text;
+
+            }
+
+            text = displayText.textContent + String(buttonText);
+            displayText.textContent = text;
+        };
 
     // replace any part of the text that isn't a number and return it for the next functions
     text = text.replace(/[^0-9.]/g, '');
