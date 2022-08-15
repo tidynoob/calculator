@@ -49,7 +49,7 @@ let adjustText = (text, buttonText, displayText) => {
         text += String(buttonText);
 
         // toLocaleString will add commas to the number string when necessary, e.g. thousands
-        displayText.textContent = Number(text).toLocaleString('en-US');
+        displayText.textContent = Number(text)
 
     } else {
 
@@ -61,10 +61,10 @@ let adjustText = (text, buttonText, displayText) => {
                 if (displayText.textContent == '') return;
                 if (text.charAt(0) == '-') {
                     text = text.substring(1);
-                    displayText.textContent = Number(text).toLocaleString('en-US');
+                    displayText.textContent = Number(text);
                 } else {
                     text = '-' + text;
-                    displayText.textContent = Number(text).toLocaleString('en-US');
+                    displayText.textContent = Number(text);
                 }
                 return text;
 
