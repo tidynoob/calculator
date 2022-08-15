@@ -1,35 +1,26 @@
 // CALCULATOR FUNCTIONS
 
-let fixDigits = (x) => {
-    let digits = x.length;
-    let digitDiff = digits - 10;
-
-    if (digitDiff > 0) x = x.toFixed(digitDiff);
-
-    return x
-};
-
 let add = (x, y) => {
-    let num = Math.round(((x + y) + Number.EPSILON) * 100000000) / 100000000 ;
-    num = fixDigits(num);
+    let num = Math.round(((x + y) + Number.EPSILON) * 1000) / 1000 ;
+    // num = fixDigits(num);
     return num;
 };
 
 let subtract = (x, y) => {
-    let num = Math.round(((x - y) + Number.EPSILON) * 100000000) / 100000000 ;
-    num = fixDigits(num);
+    let num = Math.round(((x - y) + Number.EPSILON) * 1000) / 1000 ;
+    // num = fixDigits(num);
     return num;
 };
 
 let multiply = (x, y) => {
-    let num = Math.round(((x * y) + Number.EPSILON) * 100000000) / 100000000 ;
-    num = fixDigits(num);
+    let num = Math.round(((x * y) + Number.EPSILON) * 1000) / 1000 ;
+    // num = fixDigits(num);
     return num;
 };
 
 let divide = (x, y) => {
-    let num = Math.round(((x / y) + Number.EPSILON) * 100000000) / 100000000 ;
-    num = fixDigits(num);
+    let num = Math.round(((x / y) + Number.EPSILON) * 1000) / 1000 ;
+    // num = fixDigits(num);
     return num;
 };
 
