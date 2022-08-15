@@ -24,6 +24,17 @@ let divide = (x, y) => {
     return num;
 };
 
+let negatize = (x) => {
+    x = String(x);
+    if (x.charAt(0) == '-') {
+        x = x.substring(1);
+    } else {
+        x = '-' + x;
+    }
+    x = Number(x);
+    return x;
+}
+
 // let operate = (x, y, foo) => {
 //     return foo(x, y)
 // }
@@ -39,13 +50,21 @@ let divide = (x, y) => {
 // calculator.
 let adjustText = (text, buttonText, displayText) => {
 
+    // when tempValue is true, it means we're continuing off a
+    // previous calculation.
     if (tempValue) {
-        if (!values.operator && !operators.includes(buttonText)) values.x = null;
-        text = '';
+        if (!values.operator && ![...operators, '+/-'].includes(buttonText)) values.x = null;
+
+        // when pressing +/- after a calculation, want to negatize the number
+        if (!buttonText == '+/-') text = '';
+        else {
+            text = String(values.x);
+            displayText.textContent = text;
+            values.x = negatize(values.x);
+        }
         // displayText.textContent = '';
         tempValue = false;
     };
-
 
     // if last part of text was an operator, reset text
     // but if you pressed a new operator, replace the operator and don't reset
@@ -76,13 +95,10 @@ let adjustText = (text, buttonText, displayText) => {
             case '+/-':
                 if (operators.includes(text.slice(-1))) return;
                 if (displayText.textContent == '') return;
-                if (text.charAt(0) == '-') {
-                    text = text.substring(1);
-                    displayText.textContent = Number(text);
-                } else {
-                    text = '-' + text;
-                    displayText.textContent = Number(text);
-                }
+                text = negatize(text);
+                displayText.textContent = text;
+
+
                 return text;
 
             case '=':
@@ -153,7 +169,6 @@ let storeValue = (text, buttonText) => {
 
     // check that random '=' presses don't do anything when there's no available operations
     if (buttonText == '=' & !values.y) return;
-
 
     // set an operator if we don't have one already
     if (operators.includes(buttonText)) {
