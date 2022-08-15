@@ -1,25 +1,25 @@
 // CALCULATOR FUNCTIONS
 
 let add = (x, y) => {
-    let num = Math.round(((x + y) + Number.EPSILON) * 1000) / 1000 ;
+    let num = Math.round(((x + y) + Number.EPSILON) * 1000) / 1000;
     // num = fixDigits(num);
     return num;
 };
 
 let subtract = (x, y) => {
-    let num = Math.round(((x - y) + Number.EPSILON) * 1000) / 1000 ;
+    let num = Math.round(((x - y) + Number.EPSILON) * 1000) / 1000;
     // num = fixDigits(num);
     return num;
 };
 
 let multiply = (x, y) => {
-    let num = Math.round(((x * y) + Number.EPSILON) * 1000) / 1000 ;
+    let num = Math.round(((x * y) + Number.EPSILON) * 1000) / 1000;
     // num = fixDigits(num);
     return num;
 };
 
 let divide = (x, y) => {
-    let num = Math.round(((x / y) + Number.EPSILON) * 1000) / 1000 ;
+    let num = Math.round(((x / y) + Number.EPSILON) * 1000) / 1000;
     // num = fixDigits(num);
     return num;
 };
@@ -62,59 +62,56 @@ let adjustText = (text, buttonText, displayText) => {
     // adjust the text depending on the button pressed
     // for integer, simply add the integer to the end of the text
 
-    // Wrap in an if statement to make sure text length does not excede 10
-        if (parseInt(buttonText)) {
+    if (parseInt(buttonText)) {
 
-            if (text.length < 10) {
-            text += String(buttonText);
+        text += String(buttonText);
 
-            // toLocaleString will add commas to the number string when necessary, e.g. thousands
-            displayText.textContent = Number(text)
-            }
+        // toLocaleString will add commas to the number string when necessary, e.g. thousands
+        displayText.textContent = Number(text)
 
-        } else {
+    } else {
 
-            // when not pressing an integer, adjust the display depending on the specific button
-            switch (buttonText) {
+        // when not pressing an integer, adjust the display depending on the specific button
+        switch (buttonText) {
 
-                case '+/-':
-                    if (operators.includes(text.slice(-1))) return;
-                    if (displayText.textContent == '') return;
-                    if (text.charAt(0) == '-') {
-                        text = text.substring(1);
-                        displayText.textContent = Number(text);
-                    } else {
-                        text = '-' + text;
-                        displayText.textContent = Number(text);
-                    }
-                    return text;
+            case '+/-':
+                if (operators.includes(text.slice(-1))) return;
+                if (displayText.textContent == '') return;
+                if (text.charAt(0) == '-') {
+                    text = text.substring(1);
+                    displayText.textContent = Number(text);
+                } else {
+                    text = '-' + text;
+                    displayText.textContent = Number(text);
+                }
+                return text;
 
-                case '=':
-                    text = displayText.textContent;
-                    return text;
+            case '=':
+                text = displayText.textContent;
+                return text;
 
-                case 'AC':
-                    displayText.textContent = '';
-                    return;
+            case 'AC':
+                displayText.textContent = '';
+                return;
 
-                case 'CE':
-                    displayText.textContent = '';
-                    return;
+            case 'CE':
+                displayText.textContent = '';
+                return;
 
-                // Use the default for the operators plus period
-                default:
+            // Use the default for the operators plus period
+            default:
 
-                    // do nothing if last part of character is equivalent to the button pressed
-                    if (text.slice(-1) == String(buttonText) || (!text.slice(-1) && !displayText.textContent)) return;
+                // do nothing if last part of character is equivalent to the button pressed
+                if (text.slice(-1) == String(buttonText) || (!text.slice(-1) && !displayText.textContent)) return;
 
-                // text = displayText.textContent + String(buttonText);
-                // displayText.textContent = text;
+            // text = displayText.textContent + String(buttonText);
+            // displayText.textContent = text;
 
-            }
+        }
 
-            text = displayText.textContent + String(buttonText);
-            displayText.textContent = text;
-        };
+        text = displayText.textContent + String(buttonText);
+        displayText.textContent = text;
+    };
 
     // replace any part of the text that isn't a number and return it for the next functions
     text = text.replace(/[^0-9.]/g, '');
