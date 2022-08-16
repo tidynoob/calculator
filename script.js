@@ -35,10 +35,6 @@ let negatize = (x) => {
     return x;
 }
 
-// let operate = (x, y, foo) => {
-//     return foo(x, y)
-// }
-
 // CLICK FUNCTIONS
 
 // Adjusts the text that will appear on the display
@@ -120,6 +116,10 @@ let adjustText = (text, buttonText, displayText) => {
                 // displayText.textContent = '';
                 displayText.textContent = '';
                 return;
+
+            case '.':
+                if (text.includes('.')) return text;
+                break;
 
             // Use the default for the operators plus period
             default:
