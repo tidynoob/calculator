@@ -47,7 +47,7 @@ let negatize = (x) => {
 let adjustText = (text, buttonText, displayText) => {
 
     // when tempValue is true, it means we're continuing off a
-    // previous calculation.
+    // previous calculation
     if (tempValue) {
         if (!values.operator && ![...operators, '+/-', '='].includes(buttonText)) values.x = null;
 
@@ -77,67 +77,50 @@ let adjustText = (text, buttonText, displayText) => {
         };
     };
 
-    // adjust the text depending on the button pressed
-    // for integer, simply add the integer to the end of the text
-    if (parseInt(buttonText) || buttonText == '0') {
+    // when not pressing an integer, adjust the display depending on the specific button
+    switch (buttonText) {
 
-        text += String(buttonText);
+        case '+/-':
+            if (operators.includes(text.slice(-1))) return text;
+            if (displayText.textContent == '') return text;
+            text = negatize(text);
+            displayText.textContent = text;
+            break;
 
-        // toLocaleString will add commas to the number string when necessary, e.g. thousands
-        displayText.textContent = Number(text)
+        case '=':
+            if (operators.includes(text.slice(-1))) return text;
+            text = displayText.textContent;
+            break;
 
-    } else {
+        case 'AC':
+            text = '';
+            displayText.textContent = text;
+            break;
 
-        // when not pressing an integer, adjust the display depending on the specific button
-        switch (buttonText) {
+        case 'CE':
+            text = '';
+            displayText.textContent = text;
+            break;
 
-            case '+/-':
-                if (operators.includes(text.slice(-1))) return text;
-                if (displayText.textContent == '') return text;
-                text = negatize(text);
-                displayText.textContent = text;
+        case '.':
+            if (text.includes('.')) return text;
+            text = displayText.textContent + String(buttonText);
+            displayText.textContent = text;
+            break;
 
+        // Use the default for the operators and numbers
+        default:
 
-                return text;
+            // do nothing if last part of character is equivalent to the button pressed
+            if (text.slice(-1) == String(buttonText)) return;
 
-            case '=':
-                if (operators.includes(text.slice(-1))) return text;
-                text = displayText.textContent;
-                return text;
+            text = displayText.textContent + String(buttonText);
+            displayText.textContent = text;
 
-            case 'AC':
-                text = '';
-                // displayText.textContent = '';
-                displayText.textContent = '';
-                return;
-
-            case 'CE':
-                text = '';
-                // displayText.textContent = '';
-                displayText.textContent = '';
-                return;
-
-            case '.':
-                if (text.includes('.')) return text;
-                break;
-
-            // Use the default for the operators plus period
-            default:
-
-                // do nothing if last part of character is equivalent to the button pressed
-                if (text.slice(-1) == String(buttonText) || (!text.slice(-1) && !displayText.textContent)) return;
-
-            // text = displayText.textContent + String(buttonText);
-            // displayText.textContent = text;
-
-        }
-
-        text = displayText.textContent + String(buttonText);
-        displayText.textContent = text;
     };
 
     // replace any part of the text that isn't a number and return it for the next functions
-    text = text.replace(/[^0-9.]/g, '');
+    text = text.replace(/[^0-9.-]/g, '');
     console.log(text);
 
     return text
@@ -148,8 +131,6 @@ let adjustText = (text, buttonText, displayText) => {
 // Pressing operator button additionally while one number is stored should act
 // as pseudo equal sign
 let storeValue = (text, buttonText) => {
-
-    // console.log(typeof (parseInt(buttonText)));
 
     // we won't store a value if the button pressed is just extending the current text
     // or clearing the value
@@ -162,10 +143,6 @@ let storeValue = (text, buttonText) => {
         values.operator = buttonText;
         return;
     }
-
-    // if (values.x && buttonText == '+/-' &&)
-    // console.log('thru');
-
 
     // first store the x value (first value)
     // if the x is already stored, we can store y assuming an operator
@@ -194,21 +171,25 @@ let storeValue = (text, buttonText) => {
         };
         tempValue = false;
 
-        // with CE, clear the most recent inputs
+        // with CE, clear the most recent input
     } else if (buttonText == 'CE') {
-        if (values.y) values.y = null;
-        values.operator = null;
+        // console.log(values.operator);
+        if (!values.operator) values.x = null;
+        values.y = null;
     }
 }
 
 // Performs calculation given object of values
 let operate = (object, buttonText, displayText) => {
-    if (Object.values(values).some(value => value == null ? true : false)) return
+
+    // if any part of the values object is null we don't operate
+    if (Object.values(values).some(value => value == null ? true : false)) return;
 
     else {
 
         let foo = '';
 
+        // select operating function based on button
         switch (object.operator) {
             case '+':
                 foo = add;
@@ -225,29 +206,34 @@ let operate = (object, buttonText, displayText) => {
 
         }
 
+        // adjust object storage based on whether an operator sign or 
+        // equal sign was used to calculate
         let output = foo(object.x, object.y);
         displayText.textContent = output;
         if (buttonText == '=') {
             values = {
                 x: output,
                 y: null,
-                // adjust depending on whether it was equal sign or not?
                 operator: null,
             }
         } else {
             values = {
                 x: output,
                 y: null,
-                // adjust depending on whether it was equal sign or not?
                 operator: buttonText,
             }
         };
+
+        // set tempValue true to alter functionality on next button press
         tempValue = true;
     }
 }
 
 let adjustDisplay = (e) => {
 
+    // separate displayText vs text
+    // displayText will be whatever is on display, e.g. numbers plus any operators
+    // text will carry the raw float value of the number on the display
     let displayText = document.querySelector('.displayText');
     let text = (displayText.textContent.replaceAll(',', '') || "");
     let buttonText = (e.target.textContent || e.target.innerText);
