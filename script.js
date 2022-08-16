@@ -53,15 +53,17 @@ let adjustText = (text, buttonText, displayText) => {
     // when tempValue is true, it means we're continuing off a
     // previous calculation.
     if (tempValue) {
-        if (!values.operator && ![...operators, '+/-'].includes(buttonText)) values.x = null;
+        if (!values.operator && ![...operators, '+/-', '='].includes(buttonText)) values.x = null;
 
         // when pressing +/- after a calculation, want to negatize the number
-        if (!buttonText == '+/-') text = '';
-        else {
+        if (buttonText == '+/-') {
             text = String(values.x);
             displayText.textContent = text;
             values.x = negatize(values.x);
-        }
+        } else {
+            text = '';
+
+        };
         // displayText.textContent = '';
         tempValue = false;
     };
@@ -102,14 +104,19 @@ let adjustText = (text, buttonText, displayText) => {
                 return text;
 
             case '=':
+                if (operators.includes(text.slice(-1))) return text;
                 text = displayText.textContent;
                 return text;
 
             case 'AC':
+                text = '';
+                // displayText.textContent = '';
                 displayText.textContent = '';
                 return;
 
             case 'CE':
+                text = '';
+                // displayText.textContent = '';
                 displayText.textContent = '';
                 return;
 
