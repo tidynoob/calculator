@@ -111,11 +111,12 @@ let adjustText = (text, buttonText, displayText) => {
     // if last part of text was an operator, reset text
     // but if you pressed a new operator, replace the operator and don't reset
     if (operators.includes(text.slice(-1))) {
-        if (operators.includes(buttonText)) {
-            // text = displayText.textContent.slice(0, -1) + buttonText;
-            text = displayText.textContent.slice(0, -1);
 
+        if (operators.includes(buttonText)) {
+            text = displayText.textContent.slice(0, -1);
             displayText.textContent = text;
+            dontCalc = true;
+
         } else if (buttonText == '+/-') {
         } else {
             text = '';
@@ -198,11 +199,20 @@ let storeValue = (text, buttonText) => {
         // if the button pressed is an operator, and we don't have values yet
         // don't try to calculate - just change operator
 
-        // if (operators.includes(buttonText)) {
-        //     values.operator = buttonText;
-        // return;
-        // }
-        if (values.operator) values.y = Number(text)
+        if (operators.includes(buttonText)) {
+            if (!values.operator) values.operator = buttonText;
+            if (values.operator && values.y == null) values.operator = buttonText;
+        }
+
+        // we use dontCalc here, since if we never set a y value,
+        // it won't calculate
+        if (values.operator) {
+            if (dontCalc) {
+                dontCalc = false;
+            } else {
+                values.y = Number(text)
+            };
+        };
     };
     // console.log(values);
 
@@ -318,6 +328,9 @@ let tempValue = false;
 
 // Boolean for divide by zero error
 let errorCheck = false;
+
+// Boolean for making sure we don't operate when we don't want
+let dontCalc = false;
 
 // Define the variables that will be used for storing and operations
 let values = {
