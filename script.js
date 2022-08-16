@@ -46,6 +46,7 @@ let negatize = (x) => {
 // This function is used for making adjustments to the text and display text
 // when continuining off a previous calculation, otherwise do nothing
 let tempValueAdjustments = (text, buttonText, displayText) => {
+
     // when tempValue is true, it means we're continuing off a
     // previous calculation
     if (tempValue) {
@@ -57,9 +58,15 @@ let tempValueAdjustments = (text, buttonText, displayText) => {
 
         // when pressing +/- after a calculation, want to negatize the number
         if (buttonText == '+/-') {
+
             text = String(values.x);
             displayText.textContent = text;
             values.x = Number(negatize(values.x));
+
+            // remove operator if it exists, for simplicity
+            if (operators.includes(text.slice(-1))) {
+                values.operator = null;
+            };
 
             // when pressing '=' or operators after a calculation, make adjustments to the text
             // to continue calculations
@@ -200,8 +207,14 @@ let storeValue = (text, buttonText) => {
         // don't try to calculate - just change operator
 
         if (operators.includes(buttonText)) {
-            if (!values.operator) values.operator = buttonText;
-            if (values.operator && values.y == null) values.operator = buttonText;
+            if (!values.operator) {
+                values.operator = buttonText;
+
+                // if we're adding an operator, make sure we don't add 
+                // second value on same input
+                dontCalc = true;
+            };
+            if (dontCalc) values.operator = buttonText;
         }
 
         // we use dontCalc here, since if we never set a y value,
@@ -265,7 +278,7 @@ let operate = (object, buttonText, displayText) => {
                 foo = divide;
                 break;
 
-        }
+        };
 
         // adjust object storage based on whether an operator sign or 
         // equal sign was used to calculate
