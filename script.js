@@ -42,15 +42,10 @@ let negatize = (x) => {
 
 // CLICK FUNCTIONS
 
-// Adjusts the text that will appear on the display
-// text parameter refers to the text content of display text
-// where the string is stripped of commas or converted to blank.
-// buttonText parameter refers to the text of the button pressed.
-// displayText parameter should be the selected html element 
-// that contains the text that appears on the display of the 
-// calculator.
-let adjustText = (text, buttonText, displayText) => {
 
+// This function is used for making adjustments to the text and display text
+// when continuining off a previous calculation, otherwise do nothing
+let tempValueAdjustments = (text, buttonText, displayText) => {
     // when tempValue is true, it means we're continuing off a
     // previous calculation
     if (tempValue) {
@@ -65,9 +60,30 @@ let adjustText = (text, buttonText, displayText) => {
             text = String(values.x);
             displayText.textContent = text;
             values.x = Number(negatize(values.x));
+
+            // when pressing '=' or operators after a calculation, make adjustments to the text
+            // to continue calculations
         } else if (buttonText == '=' || operators.includes(buttonText)) {
-            text = String(values.x);
+            // if an operator is already being shown, and we press an operator
+            // or =, null the previous operator
+            if (operators.includes(text.slice(-1))) {
+                values.operator = null;
+            };
+
+            // if we pressed an operator, add the operator to the text
+            // if it was just an equal sign, set it to the screen
+            if (operators.includes(buttonText)) {
+                text = String(values.x) + buttonText;
+            } else {
+                text = String(values.x);
+            };
+
             displayText.textContent = text;
+
+            // return text now so tempValue stays true
+            // we do this since pressing = or another operator
+            // isn't actually starting a new number
+            return text;
 
         } else {
             text = '';
@@ -76,6 +92,21 @@ let adjustText = (text, buttonText, displayText) => {
         };
         tempValue = false;
     };
+
+    return text;
+};
+
+
+// Adjusts the text that will appear on the display
+// text parameter refers to the text content of display text
+// where the string is stripped of commas or converted to blank.
+// buttonText parameter refers to the text of the button pressed.
+// displayText parameter should be the selected html element 
+// that contains the text that appears on the display of the 
+// calculator.
+let adjustText = (text, buttonText, displayText) => {
+
+    text = tempValueAdjustments(text, buttonText, displayText);
 
     // if last part of text was an operator, reset text
     // but if you pressed a new operator, replace the operator and don't reset
@@ -163,17 +194,17 @@ let storeValue = (text, buttonText) => {
     // a calculation using '='.
     if (values.x === null) values.x = Number(text)
     else {
-        
+
         // if the button pressed is an operator, and we don't have values yet
         // don't try to calculate - just change operator
 
-        if (values.y === null && operators.includes(buttonText)) {
-            // values.operator = buttonText;
-            // return;
-        }
+        // if (operators.includes(buttonText)) {
+        //     values.operator = buttonText;
+        // return;
+        // }
         if (values.operator) values.y = Number(text)
     };
-    console.log(values);
+    // console.log(values);
 
     // set an operator if we don't have one already
     if (operators.includes(buttonText)) {
@@ -194,6 +225,9 @@ let storeValue = (text, buttonText) => {
         if (!values.operator) values.x = null;
         values.y = null;
     }
+
+    console.log(values);
+
 }
 
 // Performs calculation given object of values
@@ -226,8 +260,12 @@ let operate = (object, buttonText, displayText) => {
         // adjust object storage based on whether an operator sign or 
         // equal sign was used to calculate
         let output = foo(object.x, object.y);
-        displayText.textContent = output;
-        if (operators.includes(buttonText)) displayText.textContent = displayText.textContent + buttonText;
+        // displayText.textContent = output;
+        if (operators.includes(buttonText)) {
+            displayText.textContent = output + buttonText;
+        } else {
+            displayText.textContent = output;
+        };
 
         if (errorCheck) {
             values = {
