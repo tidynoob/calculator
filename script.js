@@ -65,6 +65,9 @@ let adjustText = (text, buttonText, displayText) => {
             text = String(values.x);
             displayText.textContent = text;
             values.x = Number(negatize(values.x));
+        } else if (buttonText == '=' || operators.includes(buttonText)) {
+            text = String(values.x);
+            displayText.textContent = text;
         } else {
             text = '';
             displayText.textContent = '';
@@ -77,7 +80,9 @@ let adjustText = (text, buttonText, displayText) => {
     // but if you pressed a new operator, replace the operator and don't reset
     if (operators.includes(text.slice(-1))) {
         if (operators.includes(buttonText)) {
-            text = displayText.textContent.slice(0, -1) + buttonText;
+            // text = displayText.textContent.slice(0, -1) + buttonText;
+            text = displayText.textContent.slice(0, -1);
+
             displayText.textContent = text;
         } else if (buttonText == '+/-') {
         } else {
@@ -120,8 +125,9 @@ let adjustText = (text, buttonText, displayText) => {
         // Use the default for the operators and numbers
         default:
 
-            // do nothing if last part of character is equivalent to the button pressed
-            if (text.slice(-1) == String(buttonText)) return;
+            // do nothing if last part of character is equivalent to the button pressed,
+            // when not a number
+            if (text.slice(-1) == String(buttonText) && !(typeof (parseInt(buttonText)) == 'number')) return;
 
             text = displayText.textContent + String(buttonText);
             displayText.textContent = text;
@@ -146,26 +152,27 @@ let storeValue = (text, buttonText) => {
     if ((![...operators, '=', 'AC', 'CE'].includes(buttonText)) &&
         (buttonText == '.' || typeof (parseInt(buttonText)) == 'number')) return;
 
-    // if the button pressed is an operator, and we have an x value but no y value
-    // don't try to calculate - just change operator
-    if (values.x && !values.y && operators.includes(buttonText)) {
-        values.operator = buttonText;
-        return;
-    }
+    // check that random '=' presses don't do anything when there's no available operations
+    if (buttonText == '=' && values.y === null && values.x === null) return;
 
     // first store the x value (first value)
     // if the x is already stored, we can store y assuming an operator
     // is alrady stored. If an operator is not stored, we don't store y yet
     // This helps solves the issue when we are chaining calculations after
     // a calculation using '='.
-    if (!values.x) values.x = Number(text)
+    if (values.x === null) values.x = Number(text)
     else {
+        
+        // if the button pressed is an operator, and we don't have values yet
+        // don't try to calculate - just change operator
+
+        if (values.y === null && operators.includes(buttonText)) {
+            values.operator = buttonText;
+            return;
+        }
         if (values.operator) values.y = Number(text)
     };
-    // console.table(values);
-
-    // check that random '=' presses don't do anything when there's no available operations
-    if (buttonText == '=' & !values.y) return;
+    console.log(values);
 
     // set an operator if we don't have one already
     if (operators.includes(buttonText)) {
