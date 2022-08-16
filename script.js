@@ -19,6 +19,11 @@ let multiply = (x, y) => {
 };
 
 let divide = (x, y) => {
+
+    if (y == 0) {
+        errorCheck = true;
+        return "ERROR"
+    };
     let num = Math.round(((x / y) + Number.EPSILON) * 1000) / 1000;
     // num = fixDigits(num);
     return num;
@@ -49,6 +54,10 @@ let adjustText = (text, buttonText, displayText) => {
     // when tempValue is true, it means we're continuing off a
     // previous calculation
     if (tempValue) {
+
+        // If we don't have an operator (meaning we didn't use an operator as a psuedo '=' sign),
+        // and the button pressed is not another operator or +/- or '=' then we remove the stored
+        // output
         if (!values.operator && ![...operators, '+/-', '='].includes(buttonText)) values.x = null;
 
         // when pressing +/- after a calculation, want to negatize the number
@@ -210,6 +219,18 @@ let operate = (object, buttonText, displayText) => {
         // equal sign was used to calculate
         let output = foo(object.x, object.y);
         displayText.textContent = output;
+
+        if (errorCheck) {
+            values = {
+                x: null,
+                y: null,
+                operator: null,
+            }
+            errorCheck = false;
+            tempValue = true;
+            return;
+        }
+
         if (buttonText == '=') {
             values = {
                 x: output,
@@ -247,6 +268,9 @@ let operators = ['+', '−', '×', '÷'];
 
 // define a boolean that gets used when a calculated number would be used in the next operation
 let tempValue = false;
+
+// Boolean for divide by zero error
+let errorCheck = false;
 
 // Define the variables that will be used for storing and operations
 let values = {
