@@ -68,6 +68,7 @@ let adjustText = (text, buttonText, displayText) => {
         } else if (buttonText == '=' || operators.includes(buttonText)) {
             text = String(values.x);
             displayText.textContent = text;
+
         } else {
             text = '';
             displayText.textContent = '';
@@ -167,8 +168,8 @@ let storeValue = (text, buttonText) => {
         // don't try to calculate - just change operator
 
         if (values.y === null && operators.includes(buttonText)) {
-            values.operator = buttonText;
-            return;
+            // values.operator = buttonText;
+            // return;
         }
         if (values.operator) values.y = Number(text)
     };
@@ -226,13 +227,14 @@ let operate = (object, buttonText, displayText) => {
         // equal sign was used to calculate
         let output = foo(object.x, object.y);
         displayText.textContent = output;
+        if (operators.includes(buttonText)) displayText.textContent = displayText.textContent + buttonText;
 
         if (errorCheck) {
             values = {
                 x: null,
                 y: null,
                 operator: null,
-            }
+            };
             errorCheck = false;
             tempValue = true;
             return;
