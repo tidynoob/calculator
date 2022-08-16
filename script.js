@@ -31,7 +31,7 @@ let negatize = (x) => {
     } else {
         x = '-' + x;
     }
-    x = Number(x);
+    // x = Number(x);
     return x;
 }
 
@@ -74,6 +74,7 @@ let adjustText = (text, buttonText, displayText) => {
         if (operators.includes(buttonText)) {
             text = displayText.textContent.slice(0, -1) + buttonText;
             displayText.textContent = text;
+        } else if (buttonText == '+/-') {
         } else {
             text = '';
             displayText.textContent = '';
@@ -95,8 +96,8 @@ let adjustText = (text, buttonText, displayText) => {
         switch (buttonText) {
 
             case '+/-':
-                if (operators.includes(text.slice(-1))) return;
-                if (displayText.textContent == '') return;
+                if (operators.includes(text.slice(-1))) return text;
+                if (displayText.textContent == '') return text;
                 text = negatize(text);
                 displayText.textContent = text;
 
@@ -148,6 +149,8 @@ let adjustText = (text, buttonText, displayText) => {
 // as pseudo equal sign
 let storeValue = (text, buttonText) => {
 
+    // console.log(typeof (parseInt(buttonText)));
+
     // we won't store a value if the button pressed is just extending the current text
     // or clearing the value
     if ((![...operators, '=', 'AC', 'CE'].includes(buttonText)) &&
@@ -160,6 +163,7 @@ let storeValue = (text, buttonText) => {
         return;
     }
 
+    // if (values.x && buttonText == '+/-' &&)
     // console.log('thru');
 
 
