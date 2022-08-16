@@ -1,9 +1,15 @@
 # calculator
 
-to do:
-<!-- - don't error out when pressing separate operators consecutively -->
-- don't error out when pressing +/- after a calculation
-- don't error out when pressing = at random times
-- don't allow multiple periods
-- round numbers properly and keep sig figs on calc
-- don't allow divide by zero
+On-screen calculator created using HTML, CSS, and Javascript.
+
+Skills used:
+- HTML page setup
+- CSS Styling
+- Flexbox
+- CSS Element states
+- Javascript objects
+- Events and DOM Manipulation
+
+Future features?
+- keyboard support
+- mini-text on top of display showing previous inputs
