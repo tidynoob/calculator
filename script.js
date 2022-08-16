@@ -67,9 +67,9 @@ let adjustText = (text, buttonText, displayText) => {
             values.x = Number(negatize(values.x));
         } else {
             text = '';
+            displayText.textContent = '';
 
         };
-        // displayText.textContent = '';
         tempValue = false;
     };
 
@@ -130,7 +130,7 @@ let adjustText = (text, buttonText, displayText) => {
 
     // replace any part of the text that isn't a number and return it for the next functions
     text = text.replace(/[^0-9.-]/g, '');
-    console.log(text);
+    // console.log(text);
 
     return text
 
@@ -162,7 +162,7 @@ let storeValue = (text, buttonText) => {
     else {
         if (values.operator) values.y = Number(text)
     };
-    console.table(values);
+    // console.table(values);
 
     // check that random '=' presses don't do anything when there's no available operations
     if (buttonText == '=' & !values.y) return;
