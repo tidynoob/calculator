@@ -59,7 +59,7 @@ let adjustText = (text, buttonText, displayText) => {
         if (buttonText == '+/-') {
             text = String(values.x);
             displayText.textContent = text;
-            values.x = negatize(values.x);
+            values.x = Number(negatize(values.x));
         } else {
             text = '';
 
